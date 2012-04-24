@@ -1,0 +1,22 @@
+If we have the concept of direction as INCOMING, OUTGOING.  The stations in LINE_STATION are ordered
+by default as OUTGOING.
+
+STATION
+-------
++ ID
+NAME
+
+LINE
+----
++ ID
+NAME
+
+STATION_STOP
+------------
++ ID
+LINE_ID
+STATION_ID
+DIRECTION
+DAY
+TIME
+
