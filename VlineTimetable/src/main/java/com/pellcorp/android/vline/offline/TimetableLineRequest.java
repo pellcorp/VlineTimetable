@@ -1,9 +1,8 @@
 package com.pellcorp.android.vline.offline;
 
 public class TimetableLineRequest {
-	private final int mainLineId;
-	private final int lineId;
-	private final String lineName;
+	private final String mainLineId;
+	private final String lineId;
 	
 	/**
 	 * The initial route request has a different lineId to what we eventually
@@ -11,25 +10,17 @@ public class TimetableLineRequest {
 	 * 
 	 * @param mainLineId
 	 * @param lineId
-	 * @param lineName
 	 */
-	public TimetableLineRequest(final int mainLineId, 
-			final int lineId, final String lineName) {
+	public TimetableLineRequest(final String mainLineId, final String lineId) {
 		this.mainLineId = mainLineId;
 		this.lineId = lineId;
-		this.lineName = lineName;
-		
 	}
 
-	public int getMainLineId() {
+	public String getMainLineId() {
 		return mainLineId;
 	}
 
-	public int getLineId() {
+	public String getLineId() {
 		return lineId;
-	}
-
-	public String getLineName() {
-		return lineName;
 	}
 }

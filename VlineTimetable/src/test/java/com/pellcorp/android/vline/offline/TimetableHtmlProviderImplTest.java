@@ -11,7 +11,7 @@ import com.pellcorp.android.vline.offline.TimetableRequest.Direction;
 import com.pellcorp.android.vline.offline.TimetableRequest.Period;
 
 public class TimetableHtmlProviderImplTest {
-	TimetableHtmlProvider provider = new TimetableHtmlProviderImpl();
+	TimetableHtmlProvider provider = new TimetableHtmlProvider();
 	
 	@Test
 	public void testLoadGeelongWeeklyTimetable() throws Exception {
@@ -27,7 +27,7 @@ public class TimetableHtmlProviderImplTest {
 	@Test
 	public void testGetRouteGeelong() throws Exception {
 		//http://tt.ptv.vic.gov.au/tt/XSLT_REQUEST?itdLPxx_lineMain=1745&itdLPxx_lineID=4046&itdLPxx_output=html
-		TimetableLineRequest request = new TimetableLineRequest(1745, 4046, "Geelong - Melbourne");
+		TimetableLineRequest request = new TimetableLineRequest("1745", "4046");
 		Document response = provider.getTimetable(request);
 		System.out.println(response);
 	}

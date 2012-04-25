@@ -2,6 +2,7 @@ package com.pellcorp.android.vline.offline;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
@@ -17,10 +18,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.safety.Whitelist;
 
 public final class HtmlUtils {
+	private static final List<NameValuePair> EMPTY_PARAMS = new ArrayList<NameValuePair>();
+	
 	private static final Whitelist WHITELIST = new Whitelist();
 	static {
-		WHITELIST.addTags("table", "tr", "td", "div", "a", "input", "select", "option", "meta");
-		WHITELIST.addAttributes("div", "id");
+		WHITELIST.addTags("table", "tr", "td", "div", "a", "input", "select", "option", "meta", "ul", "li");
+		WHITELIST.addAttributes("div", "id", "class");
 		WHITELIST.addAttributes("a", "id", "href");
 		WHITELIST.addAttributes("input", "id", "name", "value");
 		WHITELIST.addAttributes("select", "id", "name");
@@ -34,6 +37,10 @@ public final class HtmlUtils {
 	public static Document clean(String dirtyHtml) {
 		String html = Jsoup.clean(dirtyHtml, WHITELIST);
 		return Jsoup.parse(html);
+	}
+	
+	public static Document getHtmlPage(String virtualLocation) throws IOException {
+		return getHtmlPage(virtualLocation, EMPTY_PARAMS);
 	}
 	
 	public static Document getHtmlPage(String virtualLocation, List<NameValuePair> params) throws IOException {

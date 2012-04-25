@@ -38,4 +38,11 @@ public class LineParserTest {
 		String lineId = parser.parseLineIdFromMetaRefresh(doc);
 		assertNull(lineId);
 	}
+	
+	@Test
+	public void testParseLineIdFromFromRouteView() throws Exception {
+		Document doc = ResourceUtils.loadResourceAsDocument("/RouteView.html");
+		String lineId = parser.parseLineIdFromFromRouteView(doc);
+		assertEquals("4055", lineId);
+	}
 }
