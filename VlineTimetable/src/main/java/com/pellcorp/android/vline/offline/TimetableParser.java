@@ -17,20 +17,26 @@ public class TimetableParser {
 	
 	private static final Whitelist WHITELIST = new Whitelist();
 	static {
-		WHITELIST.addTags("table", "tr", "td", "div", "a");
+		WHITELIST.addTags("table", "tr", "td", "div", "a", "input");
 		WHITELIST.addAttributes("div", "id");
 		WHITELIST.addAttributes("a", "href");
+		WHITELIST.addAttributes("input", "name", "value");
 	}
 	
 	public TimetableParser() {
 	}
 	
-	public List<StationTimes> parseTimetable(String timeTableHtml) throws Exception {
+	public Timetable parseTimetable(String timeTableHtml) throws Exception {
 		String html = Jsoup.clean(timeTableHtml, WHITELIST);
-		
 		Document doc = Jsoup.parse(html);
 		
-		List<StationTimes> stationList = new ArrayList<StationTimes>();
+		List<StationTimes> stationTimes = new ArrayList<StationTimes>();
+		
+    	//<input name="line" value="01V23" type="hidden">
+    	//<div id="ttHeadline" xmlns:diva="http://www.mentzdv.com/TTB" xmlns=""><h2 class="regional"><span>Geelong - Melbourne</span></h2>
+		String lineName = doc.select("div[id=ttHeadline]").get(0).text();
+		String lineId = doc.select("input[name=line]").get(0).attr("value");
+		Line line = new Line(lineId, lineName);
 		
 		// this will be the div
     	Element tableElement = doc.getElementById("ttAccessibleBody").getElementsByTag("table").get(0);
@@ -48,8 +54,9 @@ public class TimetableParser {
     		if (matcher.find()) {
     			stationId = toNumber(matcher.group(1));
     		}
-    		StationTimes times = new StationTimes(stationId, stationName);
-    		stationList.add(times);
+    		Station station = new Station(stationId, stationName);
+    		StationTimes times = new StationTimes(station);
+    		stationTimes.add(times);
     		
     		for (int j=1; j<cells.size(); j++) {
     			String cell = cells.get(j).text();
@@ -68,7 +75,23 @@ public class TimetableParser {
     		}
     	}
     	
-    	return stationList;
+    	List<TimetableService> timeTableService = parseStationTimes(stationTimes);  
+    	return null;
+	}
+	
+	private List<TimetableService> parseStationTimes(List<StationTimes> stationTimes) {
+		List<TimetableService> timetableService = 
+				new ArrayList<TimetableService>(stationTimes.get(0).getTimes().size());
+		  
+		for(int i=0; i<stationTimes.get(0).getTimes().size(); i++) {
+			TimetableService service = new TimetableService();
+			for(StationTimes stationTime: stationTimes) {
+				Station station = stationTime.getStation();
+				Time time = stationTime.getTimes().get(i);
+				service.addTime(new StationTime(station, time));
+			}
+		}
+		return timetableService;
 	}
 	
 	private int toNumber(String numberValue) {

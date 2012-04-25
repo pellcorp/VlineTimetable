@@ -4,21 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StationTimes {
-	private final int stationId;
-	private final String stationName;
+	private final Station station;
 	private final List<Time> times = new ArrayList<Time>();
 	
-	public StationTimes(int stationId, String stationName) {
-		this.stationId = stationId;
-		this.stationName = stationName;
+	public StationTimes(final Station station) {
+		this.station = station;
 	}
 
-	public int getStationId() {
-		return stationId;
-	}
-
-	public String getStationName() {
-		return stationName;
+	public Station getStation() {
+		return station;
 	}
 
 	public List<Time> getTimes() {
