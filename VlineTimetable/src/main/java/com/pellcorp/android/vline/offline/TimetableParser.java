@@ -20,8 +20,9 @@ public class TimetableParser {
 	public List<TimetableService> parseTimetable(Document doc) throws IOException {
 		List<StationTimes> stationTimes = new ArrayList<StationTimes>();
 		
+		// get(0) gets the div[class=ttHeader] which is really stupid!
 		Elements amPmElements = doc.getElementById("ttHeader")
-				.select("div[class=ttHeader]").get(5).select("div");
+				.select("div[class=ttHeader]").get(5).getElementsByTag("div");
 		
     	Elements stopColumns = doc.select("div[class=ma_stop]");
     	
@@ -31,7 +32,7 @@ public class TimetableParser {
     		Element stationHref = stopColumn.getElementsByTag("a").get(0);
     		String href = stationHref.attr("href");
     		
-    		String stationName = removeBracketSuffix(stationHref.text());
+    		String stationName = cleanupStationName(stationHref.text());
     		int stationId = -1;
     		Matcher matcher = STATION_URL_PATTERN.matcher(href);
     		if (matcher.find()) {
@@ -45,6 +46,8 @@ public class TimetableParser {
     		Element row = doc.getElementById("ttBR_row_" + (i+1));
     		Elements cells = row.getElementsByTag("div");
     		
+    		// we are offsetting by one because stupid jsoup includes the parent in
+    		// getElementsByTag if its the same tag type.
     		for (int j=1; j<cells.size(); j++) {
     			String amPm = amPmElements.get(j).text();
     			String cell = cells.get(j).text();
@@ -58,10 +61,9 @@ public class TimetableParser {
    					if("pm".equals(amPm)) {
    						hours += 12;
    					}
-   					
    					time = new Time(hours, minutes);
-   					times.addTime(time);
    				}
+   				times.addTime(time);
     		}
     	}
     	return parseStationTimes(stationTimes);
@@ -83,13 +85,20 @@ public class TimetableParser {
 		return timetableService;
 	}
 	
-	private String removeBracketSuffix(String stationName) {
-		int indexOf = stationName.indexOf("(");
+	private String cleanupStationName(String stationName) {
+		String cleanedStationName = stationName.trim();
+		
+		int indexOf = cleanedStationName.indexOf("(");
 		if (indexOf != -1) {
-			return stationName.substring(0, indexOf).trim();
-		} else {
-			return stationName;
+			cleanedStationName = cleanedStationName.substring(0, indexOf).trim();
 		}
+		
+		if (cleanedStationName.endsWith("Station")) {
+			cleanedStationName = cleanedStationName
+					.substring(0, cleanedStationName.length() - "Station".length()).trim();
+		}
+		
+		return cleanedStationName;
 	}
 	
 	private int toNumber(String numberValue) {
