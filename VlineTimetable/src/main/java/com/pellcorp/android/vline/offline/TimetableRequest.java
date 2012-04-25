@@ -1,5 +1,8 @@
 package com.pellcorp.android.vline.offline;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+
 public class TimetableRequest {
 	public enum Direction {
 		INCOMING, OUTGOING
@@ -29,5 +32,28 @@ public class TimetableRequest {
 
 	public Period getPeriod() {
 		return period;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (obj == null) return false;
+		if (getClass() != obj.getClass()) return false;
+
+    	TimetableRequest other = (TimetableRequest) obj;
+        EqualsBuilder builder = new EqualsBuilder();
+        builder.append(line, other.line);
+        builder.append(direction, other.direction);
+        builder.append(period, other.period);
+        return builder.isEquals();
+	}
+
+	@Override
+	public int hashCode() {
+	    HashCodeBuilder builder = new HashCodeBuilder();
+	    builder.append(line);
+	    builder.append(direction);
+	    builder.append(period);
+	    return builder.toHashCode();
 	}
 }

@@ -12,7 +12,7 @@ import org.jsoup.select.Elements;
 
 public class TimetableParser {
 	private static final Pattern STATION_URL_PATTERN = Pattern.compile("http://ptv.vic.gov.au/stop/view/([0-9]+)");
-	private static final Pattern TIME_PATTERN = Pattern.compile("([0-9]+):([0-9]+) ([am|pm]+)");
+	private static final Pattern TIME_PATTERN = Pattern.compile("([0-9]+):([0-9]+)");
 	
 	public TimetableParser() {
 	}
@@ -20,14 +20,15 @@ public class TimetableParser {
 	public List<TimetableService> parseTimetable(Document doc) throws IOException {
 		List<StationTimes> stationTimes = new ArrayList<StationTimes>();
 		
-		// this will be the div
-    	Element tableElement = doc.getElementById("ttAccessibleBody").getElementsByTag("table").get(0);
-    	Elements tableRows = tableElement.select("tr");
+		Elements amPmElements = doc.getElementById("ttHeader")
+				.select("div[class=ttHeader]").get(5).select("div");
+		
+    	Elements stopColumns = doc.select("div[class=ma_stop]");
     	
-    	for (int i=4; i<tableRows.size(); i++) {
-    		Element row = tableRows.get(i);
-    		Elements cells = row.select("td");
-    		Element stationHref = cells.get(0).getElementsByTag("a").get(0);
+    	for (int i=0; i<stopColumns.size(); i++) {
+    		Element stopColumn = stopColumns.get(i);
+    		
+    		Element stationHref = stopColumn.getElementsByTag("a").get(0);
     		String href = stationHref.attr("href");
     		
     		String stationName = removeBracketSuffix(stationHref.text());
@@ -37,26 +38,32 @@ public class TimetableParser {
     			stationId = toNumber(matcher.group(1));
     		}
     		Station station = new Station(stationId, stationName);
+    		
     		StationTimes times = new StationTimes(station);
     		stationTimes.add(times);
     		
+    		Element row = doc.getElementById("ttBR_row_" + (i+1));
+    		Elements cells = row.getElementsByTag("div");
+    		
     		for (int j=1; j<cells.size(); j++) {
+    			String amPm = amPmElements.get(j).text();
     			String cell = cells.get(j).text();
+    			
+    			Time time = Time.EMPTY;
    				matcher = TIME_PATTERN.matcher(cell);
    				if (matcher.find()) {
    					int hours = toNumber(matcher.group(1));
    					int minutes = toNumber(matcher.group(2));
-   					String amPm = matcher.group(3);
+   					
    					if("pm".equals(amPm)) {
    						hours += 12;
    					}
-   					times.addTime(new Time(hours, minutes));
-   				} else {
-   					times.addTime(Time.EMPTY);
+   					
+   					time = new Time(hours, minutes);
+   					times.addTime(time);
    				}
     		}
     	}
-    	
     	return parseStationTimes(stationTimes);
 	}
 	

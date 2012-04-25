@@ -48,6 +48,9 @@ public class CrawlerCrawler {
 			for(Period period : Period.values()) {
 				TimetableRequest ttRequest = new TimetableRequest(line, direction, period);
 				Document timetableDoc = provider.getTimetable(ttRequest);
+				System.out.println(direction.name() + ":" + period.name());
+				System.out.println(timetableDoc.toString());
+				
 				List<TimetableService> services = timeTableParser.parseTimetable(timetableDoc);
 				timetable.addServices(direction, period, services);
 			}
@@ -55,3 +58,4 @@ public class CrawlerCrawler {
 		return timetable;
 	}
 }
+
