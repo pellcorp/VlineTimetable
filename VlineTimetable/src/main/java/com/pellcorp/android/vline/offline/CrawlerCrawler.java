@@ -30,7 +30,7 @@ public class CrawlerCrawler {
 		return timetables;
 	}
 	
-	public Timetable getTimetable(Line mainLine) throws IOException {
+	private Timetable getTimetable(Line mainLine) throws IOException {
 		Document routeView = provider.getRoute(mainLine.getLineId());
 		String lineId = lineParser.parseLineIdFromFromRouteView(routeView);
 		
@@ -48,9 +48,6 @@ public class CrawlerCrawler {
 			for(Period period : Period.values()) {
 				TimetableRequest ttRequest = new TimetableRequest(line, direction, period);
 				Document timetableDoc = provider.getTimetable(ttRequest);
-				System.out.println(direction.name() + ":" + period.name());
-				System.out.println(timetableDoc.toString());
-				
 				List<TimetableService> services = timeTableParser.parseTimetable(timetableDoc);
 				timetable.addServices(direction, period, services);
 			}

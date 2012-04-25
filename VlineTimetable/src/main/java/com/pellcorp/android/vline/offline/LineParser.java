@@ -25,7 +25,10 @@ public class LineParser {
 		for (Element option : options) {
 			String routeName = option.text();
 			String lineId = option.attr("value");
-			routeList.add(new Line(lineId, routeName));
+			// skip the first option
+			if (!"-1".equals(lineId)) {
+				routeList.add(new Line(lineId, routeName));
+			}
 		}
 		
 		return routeList;
@@ -35,8 +38,6 @@ public class LineParser {
 		String link = doc
 				.select("div[class=timetablesInner]")
 				.select("ul").get(0).select("a").get(0).attr("href");
-		
-		System.out.println(link);
 		
 		Matcher matcher = LINE_URL_PATTERN.matcher(link);
 		if (matcher.find()) {
