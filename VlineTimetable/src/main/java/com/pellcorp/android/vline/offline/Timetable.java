@@ -34,8 +34,8 @@ public class Timetable {
 		return line;
 	}
 
-	public void addService(final Direction direction, final Period period, final TimetableService service) {
-		getServices(direction, period).add(service);
+	public void addServices(final Direction direction, final Period period, final List<TimetableService> services) {
+		getServices(direction, period).addAll(services);
 	}
 
 	public List<TimetableService> getServices(final Direction direction, Period period) {

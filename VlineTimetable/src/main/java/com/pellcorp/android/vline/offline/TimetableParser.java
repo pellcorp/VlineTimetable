@@ -1,5 +1,6 @@
 package com.pellcorp.android.vline.offline;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -16,7 +17,7 @@ public class TimetableParser {
 	public TimetableParser() {
 	}
 	
-	public List<TimetableService> parseTimetable(Document doc) throws Exception {
+	public List<TimetableService> parseTimetable(Document doc) throws IOException {
 		List<StationTimes> stationTimes = new ArrayList<StationTimes>();
 		
 		// this will be the div

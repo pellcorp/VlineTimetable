@@ -11,12 +11,12 @@ import com.pellcorp.android.vline.offline.TimetableRequest.Direction;
 import com.pellcorp.android.vline.offline.TimetableRequest.Period;
 
 public class TimetableHtmlProviderImplTest {
-	TimetableHtmlProvider provider = new TimetableHtmlProvider();
+	TimetableHtmlProviderImpl provider = new TimetableHtmlProviderImpl();
 	
 	@Test
 	public void testLoadGeelongWeeklyTimetable() throws Exception {
 		Line line = new Line("01V23", "Geelong - Melbourne");
-		TimetableRequest request = new TimetableRequest(line, Period.WEEKDAY, Direction.INCOMING);
+		TimetableRequest request = new TimetableRequest(line, Direction.INCOMING, Period.WEEKDAY);
 		Document response = provider.getTimetable(request);
 		
 		TimetableParser parser = new TimetableParser();

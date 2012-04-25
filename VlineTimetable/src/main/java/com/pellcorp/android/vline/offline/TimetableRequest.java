@@ -13,10 +13,10 @@ public class TimetableRequest {
 	private final Direction direction;
 	private final Period period;
 	
-	public TimetableRequest(final Line line, final Period period, final Direction direction) {
+	public TimetableRequest(final Line line, final Direction direction, final Period period) {
 		this.line = line;
-		this.period = period;
 		this.direction = direction;
+		this.period = period;
 	}
 
 	public Line getLine() {
