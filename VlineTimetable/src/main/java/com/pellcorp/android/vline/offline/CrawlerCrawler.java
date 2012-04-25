@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.pellcorp.android.vline.offline.TimetableRequest.Direction;
 import com.pellcorp.android.vline.offline.TimetableRequest.Period;
 
 public class CrawlerCrawler {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private final TimetableHtmlProvider provider;
 	private final LineParser lineParser = new LineParser();
 	private final TimetableParser timeTableParser = new TimetableParser();
@@ -31,6 +35,8 @@ public class CrawlerCrawler {
 	}
 	
 	private Timetable getTimetable(Line mainLine) throws IOException {
+		logger.debug("Loading time table for {}", mainLine);
+		
 		Document routeView = provider.getRoute(mainLine.getLineId());
 		String lineId = lineParser.parseLineIdFromFromRouteView(routeView);
 		

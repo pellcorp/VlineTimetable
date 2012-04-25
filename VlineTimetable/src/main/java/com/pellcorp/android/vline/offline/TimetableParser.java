@@ -9,8 +9,12 @@ import java.util.regex.Pattern;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TimetableParser {
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	private static final Pattern STATION_URL_PATTERN = Pattern.compile("http://ptv.vic.gov.au/stop/view/([0-9]+)");
 	private static final Pattern TIME_PATTERN = Pattern.compile("([0-9]+):([0-9]+)");
 	
@@ -97,6 +101,8 @@ public class TimetableParser {
 			cleanedStationName = cleanedStationName
 					.substring(0, cleanedStationName.length() - "Station".length()).trim();
 		}
+		
+		logger.debug("Cleaned up station name {} to {}", stationName, cleanedStationName);
 		
 		return cleanedStationName;
 	}

@@ -20,6 +20,10 @@ public class Line {
 		return name;
 	}
 	
+	public String toString() {
+		return lineId + ": " + name;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) return true;

@@ -22,8 +22,6 @@ public class TimetableCrawlerTest {
 	public void setUp() throws Exception {
 		provider = mock(TimetableHtmlProvider.class);
 		crawler = new CrawlerCrawler(provider);
-		
-		
 	}
 	
 	@Test
