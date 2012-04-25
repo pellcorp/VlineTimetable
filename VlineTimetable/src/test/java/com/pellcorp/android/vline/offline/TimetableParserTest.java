@@ -16,22 +16,40 @@ public class TimetableParserTest {
 		List<TimetableService> services = parser.parseTimetable(doc);
 		assertEquals(32, services.size());
 		
-		assertEquals(new Time(5, 42), services.get(0).getTimes().get(0).getTime());
-		assertEquals(Time.EMPTY, services.get(0).getTimes().get(1).getTime());
-		assertEquals(new Time(5, 51), services.get(0).getTimes().get(2).getTime());
-		assertEquals(new Time(5, 58), services.get(0).getTimes().get(3).getTime());
-		assertEquals(new Time(6, 13), services.get(0).getTimes().get(4).getTime());
-		assertEquals(new Time(6, 21), services.get(0).getTimes().get(5).getTime());
-		assertEquals(new Time(6, 27), services.get(0).getTimes().get(6).getTime());
-		assertEquals(new Time(6, 31), services.get(0).getTimes().get(7).getTime());
-		assertEquals(new Time(6, 33), services.get(0).getTimes().get(8).getTime());
-		assertEquals(new Time(6, 37), services.get(0).getTimes().get(9).getTime());
-		assertEquals(new Time(6, 41), services.get(0).getTimes().get(10).getTime());
-		assertEquals(new Time(6, 51), services.get(0).getTimes().get(11).getTime());
-		assertEquals(new Time(6, 54), services.get(0).getTimes().get(12).getTime());
-		assertEquals(new Time(7, 0), services.get(0).getTimes().get(13).getTime());
+		List<StationTime> firstServiceTimes = services.get(0).getTimes(); 
+		assertEquals(new Time(5, 42), firstServiceTimes.get(0).getTime());
+		assertEquals(Time.EMPTY, firstServiceTimes.get(1).getTime());
+		assertEquals(new Time(5, 51), firstServiceTimes.get(2).getTime());
+		assertEquals(new Time(5, 58), firstServiceTimes.get(3).getTime());
+		assertEquals(new Time(6, 13), firstServiceTimes.get(4).getTime());
+		assertEquals(new Time(6, 21), firstServiceTimes.get(5).getTime());
+		assertEquals(new Time(6, 27), firstServiceTimes.get(6).getTime());
+		assertEquals(new Time(6, 31), firstServiceTimes.get(7).getTime());
+		assertEquals(new Time(6, 33), firstServiceTimes.get(8).getTime());
+		assertEquals(new Time(6, 37), firstServiceTimes.get(9).getTime());
+		assertEquals(new Time(6, 41), firstServiceTimes.get(10).getTime());
+		assertEquals(new Time(6, 51), firstServiceTimes.get(11).getTime());
+		assertEquals(new Time(6, 54), firstServiceTimes.get(12).getTime());
+		assertEquals(new Time(7, 0), firstServiceTimes.get(13).getTime());
 		
 		assertEquals(Time.EMPTY, services.get(1).getTimes().get(1).getTime());
+		
+		// now lets test pm
+		List<StationTime> secondPmTimes = services.get(8).getTimes(); 
+		assertEquals(new Time(13, 0), secondPmTimes.get(0).getTime());
+		assertEquals(new Time(13, 3), secondPmTimes.get(1).getTime());
+		assertEquals(new Time(13, 7) , secondPmTimes.get(2).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(3).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(4).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(5).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(6).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(7).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(8).getTime());
+		assertEquals(Time.EMPTY, secondPmTimes.get(9).getTime());
+		assertEquals(new Time(13, 51), secondPmTimes.get(10).getTime());
+		assertEquals(new Time(13, 56), secondPmTimes.get(11).getTime());
+		assertEquals(new Time(14, 0), secondPmTimes.get(12).getTime());
+		assertEquals(new Time(14, 5), secondPmTimes.get(13).getTime());
 	}
 	
 	@Test
