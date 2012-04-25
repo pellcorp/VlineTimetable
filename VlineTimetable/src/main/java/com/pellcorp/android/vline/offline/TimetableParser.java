@@ -5,38 +5,19 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 
 public class TimetableParser {
 	private static final Pattern STATION_URL_PATTERN = Pattern.compile("http://ptv.vic.gov.au/stop/view/([0-9]+)");
 	private static final Pattern TIME_PATTERN = Pattern.compile("([0-9]+):([0-9]+) ([am|pm]+)");
 	
-	private static final Whitelist WHITELIST = new Whitelist();
-	static {
-		WHITELIST.addTags("table", "tr", "td", "div", "a", "input");
-		WHITELIST.addAttributes("div", "id");
-		WHITELIST.addAttributes("a", "href");
-		WHITELIST.addAttributes("input", "name", "value");
-	}
-	
 	public TimetableParser() {
 	}
 	
-	public Timetable parseTimetable(String timeTableHtml) throws Exception {
-		String html = Jsoup.clean(timeTableHtml, WHITELIST);
-		Document doc = Jsoup.parse(html);
-		
+	public List<TimetableService> parseTimetable(Document doc) throws Exception {
 		List<StationTimes> stationTimes = new ArrayList<StationTimes>();
-		
-    	//<input name="line" value="01V23" type="hidden">
-    	//<div id="ttHeadline" xmlns:diva="http://www.mentzdv.com/TTB" xmlns=""><h2 class="regional"><span>Geelong - Melbourne</span></h2>
-		String lineName = doc.select("div[id=ttHeadline]").get(0).text();
-		String lineId = doc.select("input[name=line]").get(0).attr("value");
-		Line line = new Line(lineId, lineName);
 		
 		// this will be the div
     	Element tableElement = doc.getElementById("ttAccessibleBody").getElementsByTag("table").get(0);
@@ -48,7 +29,7 @@ public class TimetableParser {
     		Element stationHref = cells.get(0).getElementsByTag("a").get(0);
     		String href = stationHref.attr("href");
     		
-    		String stationName = stationHref.text();
+    		String stationName = removeBracketSuffix(stationHref.text());
     		int stationId = -1;
     		Matcher matcher = STATION_URL_PATTERN.matcher(href);
     		if (matcher.find()) {
@@ -70,19 +51,18 @@ public class TimetableParser {
    					}
    					times.addTime(new Time(hours, minutes));
    				} else {
-   					times.addTime(null);
+   					times.addTime(Time.EMPTY);
    				}
     		}
     	}
     	
-    	List<TimetableService> timeTableService = parseStationTimes(stationTimes);  
-    	return null;
+    	return parseStationTimes(stationTimes);
 	}
 	
 	private List<TimetableService> parseStationTimes(List<StationTimes> stationTimes) {
 		List<TimetableService> timetableService = 
 				new ArrayList<TimetableService>(stationTimes.get(0).getTimes().size());
-		  
+		 
 		for(int i=0; i<stationTimes.get(0).getTimes().size(); i++) {
 			TimetableService service = new TimetableService();
 			for(StationTimes stationTime: stationTimes) {
@@ -90,8 +70,18 @@ public class TimetableParser {
 				Time time = stationTime.getTimes().get(i);
 				service.addTime(new StationTime(station, time));
 			}
+			timetableService.add(service);
 		}
 		return timetableService;
+	}
+	
+	private String removeBracketSuffix(String stationName) {
+		int indexOf = stationName.indexOf("(");
+		if (indexOf != -1) {
+			return stationName.substring(0, indexOf).trim();
+		} else {
+			return stationName;
+		}
 	}
 	
 	private int toNumber(String numberValue) {
@@ -100,5 +90,26 @@ public class TimetableParser {
 		} catch(NumberFormatException e) {
 			return -1;
 		}
+	}
+}
+
+class StationTimes {
+	private final Station station;
+	private final List<Time> times = new ArrayList<Time>();
+	
+	public StationTimes(final Station station) {
+		this.station = station;
+	}
+
+	public Station getStation() {
+		return station;
+	}
+
+	public List<Time> getTimes() {
+		return times;
+	}
+
+	public void addTime(Time time) {
+		this.times.add(time);
 	}
 }

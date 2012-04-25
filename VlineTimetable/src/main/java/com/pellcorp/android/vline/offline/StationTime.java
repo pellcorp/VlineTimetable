@@ -16,4 +16,8 @@ public class StationTime {
 	public Time getTime() {
 		return time;
 	}
+	
+	public String toString() {
+		return station + ":" + time;
+	}
 }

@@ -20,3 +20,5 @@ DIRECTION
 DAY
 TIME
 
+
+The first route request is of a different form, and we need to 

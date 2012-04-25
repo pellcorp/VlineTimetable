@@ -16,4 +16,8 @@ public class Station {
 	public String getStationName() {
 		return stationName;
 	}
+	
+	public String toString() {
+		return stationId + ":" + stationName;
+	}
 }

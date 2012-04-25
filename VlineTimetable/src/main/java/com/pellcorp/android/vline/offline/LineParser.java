@@ -15,10 +15,8 @@ public class LineParser {
 	public LineParser() {
 	}
 	
-	public List<Line> parseRoutes(String routeSelectorHtml) {
+	public List<Line> parseRoutes(Document doc) {
 		List<Line> routeList = new ArrayList<Line>();
-		
-		Document doc = HtmlUtils.clean(routeSelectorHtml);
 		
 		// this is a select
 		Element select = doc.getElementById("MainLineID");
@@ -32,8 +30,7 @@ public class LineParser {
 		return routeList;
 	}
 	
-	public String parseLineIdFromMetaRefresh(String html) {
-		Document doc = HtmlUtils.clean(html);
+	public String parseLineIdFromMetaRefresh(Document doc) {
 		Elements elements = doc.select("meta[http-equiv=refresh]");
 		if (elements.size() > 0) {
 			Element element = elements.get(0);

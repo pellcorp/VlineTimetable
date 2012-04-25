@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 
 public class TimetableParserTest {
@@ -11,15 +12,15 @@ public class TimetableParserTest {
 	
 	@Test
 	public void testToGeelongWeekday() throws Exception {
-		String dirtyHtml = ResourceUtils.loadResourceAsString("/ToGeelongWeekday.html");
-		List<TimetableService> services = parser.parseTimetable(dirtyHtml);
+		Document doc = ResourceUtils.loadResourceAsDocument("/ToGeelongWeekday.html");
+		List<TimetableService> services = parser.parseTimetable(doc);
 		assertEquals(19, services.size());
 	}
 	
 	@Test
 	public void testToMelbourneWeekday() throws Exception {
-		String dirtyHtml = ResourceUtils.loadResourceAsString("/ToMelbourneWeekday.html");
-		List<TimetableService> services = parser.parseTimetable(dirtyHtml);
+		Document doc = ResourceUtils.loadResourceAsDocument("/ToMelbourneWeekday.html");
+		List<TimetableService> services = parser.parseTimetable(doc);
 		assertEquals(30, services.size());
 	}
 }

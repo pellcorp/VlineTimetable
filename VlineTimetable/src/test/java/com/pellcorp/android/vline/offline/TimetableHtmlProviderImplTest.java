@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 
 import com.pellcorp.android.vline.offline.TimetableRequest.Direction;
@@ -16,7 +17,7 @@ public class TimetableHtmlProviderImplTest {
 	public void testLoadGeelongWeeklyTimetable() throws Exception {
 		Line line = new Line("01V23", "Geelong - Melbourne");
 		TimetableRequest request = new TimetableRequest(line, Period.WEEKDAY, Direction.INCOMING);
-		String response = provider.getTimetable(request);
+		Document response = provider.getTimetable(request);
 		
 		TimetableParser parser = new TimetableParser();
 		List<TimetableService> services = parser.parseTimetable(response);
@@ -27,7 +28,7 @@ public class TimetableHtmlProviderImplTest {
 	public void testGetRouteGeelong() throws Exception {
 		//http://tt.ptv.vic.gov.au/tt/XSLT_REQUEST?itdLPxx_lineMain=1745&itdLPxx_lineID=4046&itdLPxx_output=html
 		TimetableLineRequest request = new TimetableLineRequest(1745, 4046, "Geelong - Melbourne");
-		String response = provider.getTimetable(request);
+		Document response = provider.getTimetable(request);
 		System.out.println(response);
 	}
 }
