@@ -15,7 +15,7 @@ public class LineParserTest {
 	public void testLoadLines() throws Exception {
 		Document doc = ResourceUtils.loadResourceAsDocument("/RouteSelector.html");
 		List<Line> lineList = parser.parseRoutes(doc);
-		assertEquals(56, lineList.size());
+		assertEquals(55, lineList.size());
 	}
 	
 	@Test

@@ -12,23 +12,14 @@
 	<name>VlineTimetable</name>
 
 	<dependencies>
+	    <!-- 
 		<dependency>
-			<groupId>com.pellcorp.android</groupId>
-			<artifactId>TransactQuota</artifactId>
-			<version>${project.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpcore</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-android</artifactId>
+			<version>1.6.1-RC1</version>
 		</dependency>
-
+ -->
+ 
 		<dependency>
 			<groupId>org.acra</groupId>
 			<artifactId>acra</artifactId>
