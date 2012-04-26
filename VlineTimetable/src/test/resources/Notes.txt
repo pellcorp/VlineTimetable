@@ -1,24 +1,36 @@
-If we have the concept of direction as INCOMING, OUTGOING.  The stations in LINE_STATION are ordered
-by default as OUTGOING.
+A Time table has both incoming and outgoing for weekday, saturday and sunday
+
+Usage Patterns would include:
+
+Search for a station, what services leave from this station in next 5 minutes, where are they going?
+=> Can we scrape the gps coordinates for each station, so we can use the geo location to search for
+a station.
+
+The Station is going to be the main search pattern
+
 
 STATION
 -------
-+ ID
+ID (Use the ptv ID)
 NAME
+GPS_COORD (If available)
 
 LINE
 ----
-+ ID
-NAME
+ID (Use the time table line id)
+NAME 
+START_STATION_ID
+END_STATION_ID
 
-STATION_STOP
-------------
-+ ID
+A service that does not necessarily go all the way to the end station, but does it matter?
+ 
+
+SERVICE
+-------
+ID - sequence
 LINE_ID
-STATION_ID
-DIRECTION
-DAY
+STATION
 TIME
 
 
-The first route request is of a different form, and we need to 
+Can it satisfy 
