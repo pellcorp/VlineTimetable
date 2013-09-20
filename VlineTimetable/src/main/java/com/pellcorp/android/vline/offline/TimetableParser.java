@@ -24,9 +24,12 @@ public class TimetableParser {
 	public List<TimetableService> parseTimetable(Document doc) throws IOException {
 		List<StationTimes> stationTimes = new ArrayList<StationTimes>();
 		
+		System.out.println(doc.toString());
+		
+		Element header = doc.getElementById("ttHeaderLabel");
+		
 		// get(0) gets the div[class=ttHeader] which is really stupid!
-		Elements amPmElements = doc.getElementById("ttHeader")
-				.select("div[class=ttHeader]").get(5).getElementsByTag("div");
+		Elements amPmElements = header.select("div[class=ttHeaderLabel]").get(5).getElementsByTag("div");
 		
     	Elements stopColumns = doc.select("div[class=ma_stop]");
     	

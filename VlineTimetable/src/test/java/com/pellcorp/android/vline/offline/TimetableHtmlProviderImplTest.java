@@ -15,7 +15,6 @@ public class TimetableHtmlProviderImplTest {
 	TimetableHtmlProviderImpl provider = new TimetableHtmlProviderImpl();
 	
 	@Test
-	@Ignore
 	public void testLoadGeelongWeeklyTimetable() throws Exception {
 		Line line = new Line("01V23", "Geelong - Melbourne");
 		TimetableRequest request = new TimetableRequest(line, Direction.INCOMING, Period.WEEKDAY);
@@ -27,7 +26,6 @@ public class TimetableHtmlProviderImplTest {
 	}
 	
 	@Test
-	@Ignore
 	public void testGetRouteGeelong() throws Exception {
 		//http://tt.ptv.vic.gov.au/tt/XSLT_REQUEST?itdLPxx_lineMain=1745&itdLPxx_lineID=4046&itdLPxx_output=html
 		TimetableLineRequest request = new TimetableLineRequest("1745", "4046");
