@@ -1,4 +1,4 @@
 VlineTimetable
 ==============
 
-Vline Offline Timetable
+Basic timetable based on the new ptv api
