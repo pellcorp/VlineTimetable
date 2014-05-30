@@ -5,6 +5,7 @@ target
 .classpath
 .checkstyle
 bin
+gen
 
 # Package Files #
 *.jar
