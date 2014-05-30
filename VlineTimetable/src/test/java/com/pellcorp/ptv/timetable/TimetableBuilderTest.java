@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.pellcorp.ptv.http.PtvClient;
@@ -13,6 +14,7 @@ public class TimetableBuilderTest extends Assert {
 	private TimetableBuilder builder = new TimetableBuilder(client);
 	
 	@Test
+	@Ignore
 	public void testGetTimetable() throws Exception {
 		TimetableRequest laraToMelbourne = new TimetableRequest(1745, 1534, 1);
 		List<Date> laraDepartures = builder.createTimetable(laraToMelbourne, 25);
