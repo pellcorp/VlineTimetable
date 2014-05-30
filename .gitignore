@@ -4,6 +4,7 @@ target
 .settings
 .classpath
 .checkstyle
+bin
 
 # Package Files #
 *.jar
