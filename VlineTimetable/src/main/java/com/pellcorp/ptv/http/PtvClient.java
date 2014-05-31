@@ -7,8 +7,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONAware;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +19,7 @@ public class PtvClient {
 		encoder = new PtvUrlEncoder(privateKey, developerId);
 	}
 	
-	public JSONAware doGet(String uri) throws IOException {
+	public String doGet(String uri) throws IOException {
 		HttpClient httpClient = new DefaultHttpClient();
 
 		try {
@@ -30,9 +28,7 @@ public class PtvClient {
 			HttpGet get = new HttpGet(baseURL + encoder.encodeUri(uri));
 			HttpResponse response = httpClient.execute(get);
 			String jsonResponse = EntityUtils.toString(response.getEntity());
-			JSONParser parser = new JSONParser();
-			JSONAware jsonResult = (JSONAware) parser.parse(jsonResponse);
-			return jsonResult;
+			return jsonResponse;
 		} catch(IOException e) {
 			throw e;
 		} catch(Exception e) {

@@ -7,11 +7,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jayway.jsonpath.JsonPath;
 import com.pellcorp.ptv.http.PtvClient;
 
 public class TimetableBuilder {
@@ -30,12 +29,11 @@ public class TimetableBuilder {
 						request.getLineId(), request.getDepartureId(),
 						request.getDirectionId(), limit);
 
-		JSONObject jsonResult = (JSONObject) client.doGet(url);
-		JSONArray results = (JSONArray) jsonResult.get("values");
+		String response = client.doGet(url);
+		List<String> dateStrings = JsonPath.read(response, "$..time_timetable_utc");
 		List<Date> entries = new ArrayList<Date>();
-		for (int i = 0; i < results.size(); i++) {
-			JSONObject obj = (JSONObject) results.get(i);
-			Date date = parseDateTime((String) obj.get("time_timetable_utc"));
+		for (String dateString : dateStrings) {
+			Date date = parseDateTime((String) dateString);
 			entries.add(date);
 		}
 		return entries;

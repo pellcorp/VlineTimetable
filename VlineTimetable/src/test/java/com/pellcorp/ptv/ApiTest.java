@@ -1,7 +1,5 @@
 package com.pellcorp.ptv;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -20,24 +18,19 @@ public class ApiTest {
 	@Ignore
 	public void testSearch() throws Exception {
 		// 1534
-		JSONArray arr = (JSONArray) client.doGet("/v2/search/Lara");
-		for (int i = 0; i< arr.size(); i++) {
-			JSONObject obj = (JSONObject) arr.get(i);
-			JSONObject result = (JSONObject) obj.get("result");
-			System.out.println(result.toJSONString());
-		}
+		System.out.println(client.doGet("/v2/search/Lara"));
 	}
 	
 	@Test
 	@Ignore
 	public void testDeparturesLara() throws Exception {
-		System.out.println(client.doGet("/v2/mode/3/stop/1534/departures/by-destination/limit/0").toJSONString());
+		System.out.println(client.doGet("/v2/mode/3/stop/1534/departures/by-destination/limit/0"));
 	}
 	
 	@Test
 	@Ignore
 	public void testDeparturesMelbourne() throws Exception {
-		System.out.println(client.doGet("/v2/mode/3/stop/1181/departures/by-destination/limit/0").toJSONString());
+		System.out.println(client.doGet("/v2/mode/3/stop/1181/departures/by-destination/limit/0"));
 	}
 	
 	@Test
