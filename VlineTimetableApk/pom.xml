@@ -25,14 +25,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>com.pellcorp.android</groupId>
-			<artifactId>VlineTimetable</artifactId>
-			<version>${project.version}</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.3</version>
@@ -152,17 +144,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<repositories>
-		<repository>
-			<id>acra-snapshots</id>
-			<url>http://acra.googlecode.com/svn/repository/snapshots</url>
-		</repository>
-
-		<repository>
-			<id>acra-releases</id>
-			<url>http://acra.googlecode.com/svn/repository/releases</url>
-		</repository>
-	</repositories>
-
 </project>
